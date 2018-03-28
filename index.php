@@ -5,6 +5,5 @@ session_start();
     header("Location: Register.php");
     die();
 }else{*/
-    echo "Hello ". $_SESSION['fname'];
-
+    require "includes/header.php"
 ?>

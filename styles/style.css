@@ -1,0 +1,55 @@
+/*      Register.php styles     */
+
+#loginWrapper {
+    background: #222f3e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#regPage {
+    height: 100%;
+    overflow: hidden;
+}
+
+#pageWrapper {
+    height: inherit;
+    background: linear-gradient(to right, rgba(254, 202, 87, 0.2), rgba(34, 47, 62, 0.9)), url('../img/Backgrounds/regBg.png') center;
+    background-size: 100%;
+}
+
+
+/* Index.php Styles   */
+
+.navbar {
+    background: #311564;
+    margin: 0;
+}
+
+nav .fa {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: 0.3s all;
+}
+
+nav .fa:hover {
+    color: #e7e7e7;
+}
+
+nav li:hover {
+    background: #462288;
+}
+
+nav a {
+    color: white;
+}
+
+nav li #username:hover {
+    background: #311564;
+}
+
+nav #username a:hover {
+    color: white;
+}
