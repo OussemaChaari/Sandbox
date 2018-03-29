@@ -8,4 +8,5 @@ function validate($input)
 function checkLength($str,$minNum,$maxNum){
     return (strlen($str)>=$minNum && strlen($str)<=$maxNum);              
 }
+
 ?>

@@ -4,6 +4,11 @@
     background: #222f3e;
 }
 
+body,
+html {
+    background: rgb(202, 202, 202);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -52,4 +57,61 @@ nav li #username:hover {
 
 nav #username a:hover {
     color: white;
+}
+
+#profileAside {
+    margin-top: 10px;
+}
+
+#profileMain {
+    margin-top: 20px;
+}
+
+img#profilePic {
+    max-height: 160px;
+    max-width: 160px;
+    margin: 10px auto;
+}
+
+#postWrapper {
+    background: #fff;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#postText {
+    width: 83%;
+    height: 3.2rem;
+    padding: 0.2rem;
+}
+
+#postBtn {
+    width: 15%;
+    border-radius: 3px;
+    background: #462288;
+    color: rgb(212, 204, 204);
+    outline: none;
+    border: none;
+    transition: 0.2s all;
+}
+
+#postBtn:hover {
+    background: #552e9c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.post {
+    background: #fff;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+div.card-body {
+    padding-top: 0;
 }

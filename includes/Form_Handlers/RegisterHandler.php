@@ -59,13 +59,15 @@ if (isset($_POST['register'])) {
 
     //Adding Data to Db
     if (empty($regErrors)){
-        $insertion="INSERT INTO users (id,first_name,last_name,username,email,pw,signup_date) VALUES (NULL,'$fname','$lname','$username','$email','$pw',CURRENT_TIMESTAMP)";
+        $fname=ucwords($fname);
+        $lname=ucwords($lname);
+        $default_pic_path="img/Profile/default.jpg";
+        $insertion="INSERT INTO users (id,first_name,last_name,username,email,pw,signup_date,profile_pic,num_likes,num_posts) VALUES (NULL,'$fname','$lname','$username','$email','$pw',CURRENT_TIMESTAMP,'$default_pic_path',0,0)";
         $result= mysqli_query($con,$insertion);
         if($result){
             array_push($successMsgs,"User $email Added !!! ");
-            $_SESSION['username']=$username;
+            session_destroy();
         }
     }
-    mysqli_close($con);
 }
 ?>

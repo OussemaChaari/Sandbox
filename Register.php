@@ -6,8 +6,8 @@ if(!empty($_SESSION['username'])){
     die();
 }
 require "includes/functions.php";
-require "includes/RegisterHandler.php";
-require "includes/LogInHander.php";
+require "includes/Form_Handlers/RegisterHandler.php";
+require "includes/Form_Handlers/LogInHander.php";
 ?>
 
 

@@ -1,3 +1,12 @@
+<?php 
+    $username=$_SESSION['username'];
+    $query="SELECT * FROM users WHERE username='$username'";
+    $result=mysqli_query($con,$query);
+    $result=mysqli_fetch_assoc($result);
+    $result['friend_array']=explode(',',$result['friend_array']);
+    mysqli_close($con);//TODO: THis will change
+?>
+
 <html lang="en">
 
 <head>
@@ -22,7 +31,7 @@
                     <li class="nav-item" id="username">
                         <a class="nav-link" href="#">
                             <span>
-                                <?php echo $_SESSION['fname']; ?>
+                                <?php echo $result['first_name']; ?>
                             </span>
                         </a>
                     </li>
@@ -49,6 +58,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fa fa-envelope"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="includes/nav_handlers/logout.php">
+                            <i class="fa fa-sign-out"></i>
                         </a>
                     </li>
                 </ul>
