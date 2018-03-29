@@ -1,6 +1,10 @@
 <?php
 require "includes/connection.php";
 session_start();
+if(!empty($_SESSION['username'])){
+    header("Location: index.php");
+    die();
+}
 require "includes/functions.php";
 require "includes/RegisterHandler.php";
 require "includes/LogInHander.php";
