@@ -43,8 +43,13 @@ nav .fa:hover {
     color: #e7e7e7;
 }
 
+nav li {
+    border-bottom: 2px transparent solid;
+}
+
 nav li:hover {
     background: #462288;
+    border-bottom: 2px white solid;
 }
 
 nav a {
@@ -75,14 +80,22 @@ img#profilePic {
 
 #postWrapper {
     background: #fff;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 10px;
+    border-bottom: 3px solid #462288;
 }
 
 #postText {
     width: 83%;
-    height: 3.2rem;
-    padding: 0.2rem;
+    height: 5.4rem;
+    padding: 0.4rem;
+    border-radius: 5px;
+    resize: none;
+    border: 1px #d3d3d3 solid;
+}
+
+#posText:focus {
+    outline: none;
 }
 
 #postBtn {
@@ -108,8 +121,12 @@ img#profilePic {
     width: 100%;
 }
 
-textarea {
-    resize: none;
+#postForm {
+    width: 100%;
+}
+
+textarea:focus {
+    outline: none;
 }
 
 div.card-body {

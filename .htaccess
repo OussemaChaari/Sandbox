@@ -1,0 +1,8 @@
+#redirect for 404 error
+ErrorDocument 404 /Social/public/includes/Errors/notfound.html 
+#disable Directory index being shown
+Options -indexes
+#url masking? idk what to call it
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9-_]+)$ profile.php?profile_username=$1
+RewriteRule ^([a-zA-Z0-9-_]+)/$ profile.php?profile_username=$1

@@ -7,8 +7,7 @@ if (!$_SESSION['username']){
 }
 require "includes/profilePage/header.php";
 ?>
-<div class="container">
-    <div id="profile" class="row no-gutter">
+
         <div class="col-md-3" id="profileAside">
             <div class="card">
                 <img class="img-top" id="profilePic" src="<?php echo $result['profile_pic']; ?>">
@@ -27,5 +26,3 @@ require "includes/profilePage/header.php";
                 <div class="post"></div>
             </div>
         </div>
-    </div>
-</div>

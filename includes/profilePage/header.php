@@ -4,7 +4,6 @@
     $result=mysqli_query($con,$query);
     $result=mysqli_fetch_assoc($result);
     $result['friend_array']=explode(',',$result['friend_array']);
-    mysqli_close($con);//TODO: THis will change
 ?>
 
 <html lang="en">
@@ -69,3 +68,6 @@
             </div>
         </div>
     </nav>
+
+    <div class="container">
+    <div id="profile" class="row no-gutter">
