@@ -23,4 +23,8 @@ class User{
     public function getUsername(){
         return $this->user['username'];
     }
+
+    public function getProfilePic(){
+        return $this->user['profile_pic'];
+    }
 }

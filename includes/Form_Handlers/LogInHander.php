@@ -18,7 +18,7 @@
             $result=mysqli_fetch_assoc($result);
             $pwCheck=password_verify($login_pw,$result['pw']);
             if($pwCheck){
-                $_SESSION['fname']=$result['first_name'];
+                $_SESSION['username']=$result['username'];
                 header('Location: index.php');
             }else{
                 array_push($loginErrors,"Wrong Password, Are you $login_email ?");

@@ -1,6 +1,10 @@
 <?php 
 require "includes/connection.php";
 session_start();
+if (!$_SESSION['username']){
+    header("Location: register.php");
+    die();
+}
 require "includes/profilePage/header.php";
 include "includes/classes/User.php";
 include "includes/classes/Post.php";
@@ -33,6 +37,6 @@ if (isset($_POST['post_btn'])){
             <input type="submit" name="post_btn" id="postBtn" value="Post!">
         </form>
     <div id="feed">
-        <div class="post"></div>
+    <?php $post->loadPosts(); ?>
     </div>
 </div>

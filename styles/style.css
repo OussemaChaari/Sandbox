@@ -94,7 +94,7 @@ img#profilePic {
     border: 1px #d3d3d3 solid;
 }
 
-#posText:focus {
+#postText:focus {
     outline: none;
 }
 
@@ -117,8 +117,12 @@ img#profilePic {
 .post {
     background: #fff;
     box-sizing: border-box;
-    padding: 5px 10px;
+    margin: 10px 0;
+    padding: 10px;
     width: 100%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 #postForm {
@@ -131,4 +135,38 @@ textarea:focus {
 
 div.card-body {
     padding-top: 0;
+}
+
+.postHead{
+    margin-bottom: 10px;
+}
+
+#postPic{
+    align-self: start;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.postHead a{
+    position: relative;
+    top: 5px;
+}
+
+.postBody{
+    margin-left: 20px;
+}
+
+#timeFrame{
+    position: relative;
+    top: 30px;
+    right: 82px;
+    font-size: 0.7rem;
+}
+
+div.displayMore{
+    background:white;
+}
+
+button#displayMore.btn-link{
+    margin:0 auto;
 }
