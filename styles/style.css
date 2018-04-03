@@ -6,7 +6,7 @@
 
 body,
 html {
-    background: rgb(202, 202, 202);
+    background: rgb(197, 193, 193);
 }
 
 * {
@@ -85,7 +85,7 @@ img#profilePic {
     border-bottom: 3px solid #462288;
 }
 
-#postText {
+.postText {
     width: 83%;
     height: 5.4rem;
     padding: 0.4rem;
@@ -120,9 +120,8 @@ img#profilePic {
     margin: 10px 0;
     padding: 10px;
     width: 100%;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 3px #462288 solid;
 }
 
 #postForm {
@@ -137,36 +136,80 @@ div.card-body {
     padding-top: 0;
 }
 
-.postHead{
+.postHead {
     margin-bottom: 10px;
 }
 
-#postPic{
-    align-self: start;
+#postPic {
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.postHead a{
+.postHead a {
     position: relative;
     top: 5px;
 }
 
-.postBody{
+.postBody p {
     margin-left: 20px;
+    margin-bottom: 5px;
 }
 
-#timeFrame{
+#timeFrame {
     position: relative;
     top: 30px;
-    right: 82px;
+    right: 105px;
     font-size: 0.7rem;
 }
 
-div.displayMore{
-    background:white;
+div.displayMore {
+    background: white;
 }
 
-button#displayMore.btn-link{
-    margin:0 auto;
+button#displayMore.btn-link {
+    margin: 0 auto;
+}
+
+.interactionBox {
+    background: rgba(155, 145, 145, 0.4);
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 5px 0;
+}
+
+.interactionBox form {
+    width: 100%;
+}
+
+.interactionBox .btn-link:hover,
+.interactionBox .btn-link:active {
+    text-decoration: none;
+}
+
+.commentText {
+    width: 90%;
+    height: 50px;
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding-left: 10px;
+    outline: none;
+    font-size: 0.8rem;
+}
+
+.commentBtn {
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: none;
+    background: #462288;
+    color: rgb(212, 204, 204);
+}
+
+.commentBtn:hover {
+    background: #552e9c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.commentWrapper {
+    display: none;
 }

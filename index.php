@@ -11,6 +11,7 @@ $post = new Post($con, $_SESSION['username']);
 if (isset($_POST['post_btn'])) {
     $post->submitPost($_POST['post_text'], "");
 }
+//TODO:addComment on submit
 require "includes/profilePage/header.php";
 
 ?>
@@ -30,7 +31,7 @@ require "includes/profilePage/header.php";
 <div class="col-md-9" id="profileMain">
     <form class="d-flex justify-content-between" id="postWrapper"
           action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-        <textarea name="post_text" placeholder="Got something to say ?" id="postText"></textarea>
+        <textarea name="post_text" placeholder="Got something to say ?" class="postText"></textarea>
         <input type="submit" name="post_btn" id="postBtn" value="Post!">
     </form>
     <div id="feed">

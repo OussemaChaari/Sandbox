@@ -30,6 +30,18 @@ class Post
         }
     }
 
+    public function deletePost($postId){
+        //TODO: DO THAT TOO
+    }
+
+    public function deleteComment($commentId){
+        //TODO: DO THAT TOO    
+    }
+
+    public function addComment($postId){
+        //TODO: DO THAT
+    }
+
     public function loadPosts($limit, $page)
     {
         $start=0;
@@ -51,7 +63,7 @@ class Post
                 $user_to = $row['user_to'];
                 $likes = $row['likes'];
                 $date_added = $row['date_added'];
-
+                $postId = $row['id'];
 
 
 
@@ -69,6 +81,7 @@ class Post
                     break;
                 else
                     $count++;
+                
 
                 if (userExists($this->con, $added_by)) {//get the added_by data if the account has not been deleted
                     $addedByObj = new User($this->con, $added_by);
@@ -80,7 +93,8 @@ class Post
                     ?>
                     <div class='post'>
                         <div class='postHead d-flex'>
-                            <img width="50" height="50" id='postPic' src='<?php echo $addedByPic; ?>'>
+                            
+                            <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic' src='<?php echo $addedByPic; ?>'></a>
                             <a href='<?php echo $added_by; ?>'><?php echo $addedByFName; ?></a>
                             <?php echo $user_to != "" ? "to <a href='" . $user_to . "'> " . $userToFName . "</a>" : ""; ?>
                             <span id="timeFrame" class="text-muted"><?php echo $date_added ?></span>
@@ -88,14 +102,36 @@ class Post
                         <div class="postBody">
                             <p><?php echo $body; ?></p>
                         </div>
-                        <!-- TODO: Add Like,comment ... -->
+                        <div class="interactionBox">
+                            <button class="btn btn-link"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like (0)</button>
+                            <button class="btn btn-link" id="comment">Comment (0)</button>
+                            <div id="commentWrapper" class="d-flex justify-content-start">
+                                <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic' src='<?php echo $addedByPic; ?>'></a>
+                                <form action="<?php echo htmlentities($_SERVER['PHP_SELF'])?>;">
+                                    <input type="hidden" name="postId" value="<?php echo $postId ;?>">
+                                    <input type="text" name="insert-comment" class="commentText">
+                                    <button type="submit" class="commentBtn"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                                </form>
+                                <?php 
+                                    $comments_query=mysqli_query("SELECT * FROM comments WHERE post_id = $postId ORDER BY commented_on DESC");
+                                    while($comments_result=mysqli_fetch_assoc($comments_query)){
+                                        //TODO: STyle All the comments comming from the DB
+
+                                    }
+                                ?>
+                            </div>
+                        </div>
                     </div>
+                    
                     <?php
                 } else {
                     continue;
                 }
-            }
-        }
+            }?><script>
+                
+            </script>
+
+   <?php     }
     }
 }
 
