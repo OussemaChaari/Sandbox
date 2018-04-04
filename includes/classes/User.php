@@ -16,6 +16,7 @@ class User{
         $update_query= mysqli_query($this->con,"UPDATE users SET num_posts=$numPosts WHERE username='$tempUsername'");
     }
 
+
     public function getFullName(){
         return $this->user['first_name'] . " " . $this->user['last_name'];
     }

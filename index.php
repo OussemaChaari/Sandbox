@@ -11,13 +11,15 @@ $post = new Post($con, $_SESSION['username']);
 if (isset($_POST['post_btn'])) {
     $post->submitPost($_POST['post_text'], "");
 }
-//TODO:addComment on submit
+if (isset($_POST['comment_btn'])){
+    $post->addComment();
+}
 require "includes/profilePage/header.php";
 
 ?>
 <div class="col-md-3" id="profileAside">
     <div class="card">
-        <img class="img-top" id="profilePic" src="<?php echo $result['profile_pic']; ?>">
+        <img class="img-top" id="profilePic" src="<?php echo $result['profile_pic']; $_SESSION['userProfile']=$result['profile_pic']?>">
         <div class="card-body text-center">
             <a class="card-text" href="#">
                 <?php echo $result['first_name'] . " " . $result['last_name']; ?>
@@ -29,8 +31,7 @@ require "includes/profilePage/header.php";
     </div>
 </div>
 <div class="col-md-9" id="profileMain">
-    <form class="d-flex justify-content-between" id="postWrapper"
-          action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+    <form class="d-flex justify-content-between" id="postWrapper" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
         <textarea name="post_text" placeholder="Got something to say ?" class="postText"></textarea>
         <input type="submit" name="post_btn" id="postBtn" value="Post!">
     </form>

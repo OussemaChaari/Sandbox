@@ -12,6 +12,7 @@ html {
 * {
     margin: 0;
     padding: 0;
+    outline: none;
 }
 
 #regPage {
@@ -172,9 +173,10 @@ button#displayMore.btn-link {
 
 .interactionBox {
     background: rgba(155, 145, 145, 0.4);
-    border-radius: 15px;
+    border-radius: 10px;
     margin: 0 auto;
-    padding: 5px 0;
+    padding: 0 0 5px 0;
+    width: 90%;
 }
 
 .interactionBox form {
@@ -210,6 +212,38 @@ button#displayMore.btn-link {
     cursor: pointer;
 }
 
-.commentWrapper {
-    display: none;
+#commentWrapper {
+    padding: 0 5px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgb(146, 137, 137);
+}
+
+.commentInfo {
+    margin: 5px auto;
+}
+
+.commentSnap {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 10px;
+    border-bottom: 3px solid rgb(236, 236, 236);
+}
+
+#commentTime {
+    font-size: 0.7rem;
+    position: relative;
+    top: 25px;
+    right: 15%;
+}
+
+.commentSnap p {
+    padding-left: 20px;
+    font-family: Arial, "Helvetica Neue", sans-serif;
+}
+
+button.close {
+    position: relative;
+    bottom: 15px;
+    left: 70%;
+    display: inline;
 }

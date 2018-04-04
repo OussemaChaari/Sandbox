@@ -30,21 +30,32 @@ class Post
         }
     }
 
-    public function deletePost($postId){
+    public function deletePost($postId)
+    {
         //TODO: DO THAT TOO
+
     }
 
-    public function deleteComment($commentId){
+    public function deleteComment($commentId)
+    {
         //TODO: DO THAT TOO    
     }
 
-    public function addComment($postId){
-        //TODO: DO THAT
+    public function addComment()
+    {
+        $commentBody = strip_tags($_POST['insert_comment']);
+        $commentBody = mysqli_real_escape_string($this->con, $commentBody);
+        $postId = $_POST['post_id'];
+        $isEmpty = preg_replace('/\s+/', '', $commentBody);
+        if (!empty($isEmpty)) {
+            $added_by = $this->userObj->getUsername();
+            $query = mysqli_query($this->con, "INSERT INTO comments VALUES(NULL,'$commentBody','$added_by',$postId,CURRENT_TIMESTAMP)");
+        }
     }
 
     public function loadPosts($limit, $page)
     {
-        $start=0;
+        $start = 0;
         if ($page == 1)
             $start = 0;
         else
@@ -53,9 +64,10 @@ class Post
 
         $data = mysqli_query($this->con, "SELECT * FROM posts ORDER BY date_added DESC");
 
-        if (mysqli_num_rows($data)>0) {
+        if (mysqli_num_rows($data) > 0) {
             $count = 1;
-            $iterations=0;
+            $iterations = 0;
+
             while ($row = mysqli_fetch_assoc($data)) {//get All the posts from latest to oldest
                 $id = $row['id'];
                 $body = $row['body'];
@@ -65,36 +77,33 @@ class Post
                 $date_added = $row['date_added'];
                 $postId = $row['id'];
 
-
-
                 if ($user_to != "") {//check if the post is on the user's own wall or on others wall
                     $userToObj = new User($this->con, $user_to);
                     $userToFName = $userToObj->getFullName();
                 }
-
-
                 if ($iterations++ < $start)
                     continue;
-
 
                 if ($count > $limit)
                     break;
                 else
                     $count++;
-                
+
 
                 if (userExists($this->con, $added_by)) {//get the added_by data if the account has not been deleted
                     $addedByObj = new User($this->con, $added_by);
                     $addedByFName = $addedByObj->getFullName();
                     $addedByPic = $addedByObj->getProfilePic();
-
-
                     $date_added = getTimeFrame($date_added);//this function exists in functions.php which returns the time passes since the post has been added
+
                     ?>
+
+
                     <div class='post'>
                         <div class='postHead d-flex'>
-                            
-                            <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic' src='<?php echo $addedByPic; ?>'></a>
+
+                            <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic'
+                                                                    src='<?php echo $addedByPic; ?>'></a>
                             <a href='<?php echo $added_by; ?>'><?php echo $addedByFName; ?></a>
                             <?php echo $user_to != "" ? "to <a href='" . $user_to . "'> " . $userToFName . "</a>" : ""; ?>
                             <span id="timeFrame" class="text-muted"><?php echo $date_added ?></span>
@@ -103,35 +112,59 @@ class Post
                             <p><?php echo $body; ?></p>
                         </div>
                         <div class="interactionBox">
-                            <button class="btn btn-link"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like (0)</button>
+                            <button class="btn btn-link"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like (0)
+                            </button>
                             <button class="btn btn-link" id="comment">Comment (0)</button>
                             <div id="commentWrapper" class="d-flex justify-content-start">
-                                <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic' src='<?php echo $addedByPic; ?>'></a>
-                                <form action="<?php echo htmlentities($_SERVER['PHP_SELF'])?>;">
-                                    <input type="hidden" name="postId" value="<?php echo $postId ;?>">
-                                    <input type="text" name="insert-comment" class="commentText">
-                                    <button type="submit" class="commentBtn"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                                <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic'
+                                                                        src='<?php echo $_SESSION['userProfile']; ?>'></a>
+                                <form method="post" action="<?php htmlentities($_SERVER['PHP_SELF']); ?>">
+                                    <input type="hidden" name="post_id" value="<?php echo $postId; ?>">
+                                    <input type="text" name="insert_comment" class="commentText">
+                                    <button name="comment_btn" type="submit" class="commentBtn"><i
+                                                class="fa fa-commenting" aria-hidden="true"></i></button>
                                 </form>
-                                <?php 
-                                    $comments_query=mysqli_query("SELECT * FROM comments WHERE post_id = $postId ORDER BY commented_on DESC");
-                                    while($comments_result=mysqli_fetch_assoc($comments_query)){
-                                        //TODO: STyle All the comments comming from the DB
-
-                                    }
-                                ?>
                             </div>
+                            <?php
+                            $comments_query = mysqli_query($this->con, "SELECT * FROM comments WHERE post_id = $postId ORDER BY commented_on DESC");
+                            while ($comments_result = mysqli_fetch_assoc($comments_query)) {
+                                $commenter_username = $comments_result['commented_by'];
+                                $commenter_query = mysqli_query($this->con, "SELECT first_name,last_name,profile_pic FROM users WHERE username='$commenter_username'");
+                                $commenter_result = mysqli_fetch_assoc($commenter_query);
+                                $comment_time = getTimeFrame($comments_result['commented_on']);
+                                $commenter_pic = $commenter_result['profile_pic'];
+                                $commenter_fname = $commenter_result['first_name'] . " " . $commenter_result['last_name'];
+                                ?>
+                                <div class="commentSnap">
+                                    <div class="commentInfo d-flex">
+                                        <a href="<?php echo $commenter_username; ?>"><img width="50" height="50" id="postPic" src="<?php echo $commenter_pic; ?>"></a>
+                                        <a href='<?php echo $commenter_username; ?>'><?php echo $commenter_fname; ?></a>
+                                        <?php if ($_SESSION['username']==$commenter_username){?>
+                                        <a class="close" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </a>
+                                        <?php } ?>
+                                        <span id="commentTime" class="text-muted"><?php echo $comment_time ?></span>
+                                    </div>
+                                    <p><?php echo $comments_result['comment_body']; ?></p>
+                                </div>
+                            <?php }
+                            ?>
+
+
                         </div>
                     </div>
-                    
+
                     <?php
                 } else {
                     continue;
                 }
-            }?><script>
-                
+            } ?>
+            <script>
+
             </script>
 
-   <?php     }
+        <?php }
     }
 }
 
