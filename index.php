@@ -14,6 +14,20 @@ if (isset($_POST['post_btn'])) {
 if (isset($_POST['comment_btn'])){
     $post->addComment();
 }
+if (isset($_POST['remove_comment'])){
+    $comment_id=$_POST['comment_id'];
+    $post_id = $_POST['post_id'];
+    $post->deleteComment($comment_id,$post_id);
+}
+if (isset($_POST['remove_post'])){
+    $postId=$_POST['post_id'];
+    $post->deletePost($postId);
+}
+if (isset($_POST['like_btn'])){
+    $postId=(int)$_POST['post_id'];
+    $post->likePost($postId);
+}
+
 require "includes/profilePage/header.php";
 
 ?>
@@ -24,8 +38,11 @@ require "includes/profilePage/header.php";
             <a class="card-text" href="#">
                 <?php echo $result['first_name'] . " " . $result['last_name']; ?>
             </a>
-            <p>Likes:
+            <p>Likes: 
                 <?php echo $result['num_likes']; ?>
+            </p>
+            <p>Posts: 
+            <?php echo $result['num_posts']; ?>
             </p>
         </div>
     </div>

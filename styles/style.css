@@ -247,3 +247,13 @@ button.close {
     left: 70%;
     display: inline;
 }
+
+.removeComment {
+    position: absolute;
+    left: 80%;
+}
+
+#closeCommentBtn,
+#closePostBtn {
+    background: transparent;
+}

@@ -74,7 +74,7 @@ require "includes/Form_Handlers/LogInHander.php";
                                         placeholder="Last Name" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="reg_user" class="form-control" value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : '' ?>"
+                                    <input type="text" name="reg_user" class="form-control" 
                                         placeholder="User name" />
                                 </div>
                                 <div class="form-group">

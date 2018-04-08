@@ -24,21 +24,46 @@ class Post
             if ($user_to == $added_by) {
                 $user_to = "";
             }
-            $query = mysqli_query($this->con, "INSERT INTO posts VALUES(NULL,'$body','$added_by',CURRENT_TIMESTAMP,'$user_to',0)");
+            $query = mysqli_query($this->con, "INSERT INTO posts VALUES(NULL,'$body','$added_by',CURRENT_TIMESTAMP,'$user_to',0,0)");
             $postId = mysqli_insert_id($this->con);
             $this->userObj->updateNumPosts(1);
+            $query = mysqli_query($this->con, "INSERT INTO likes VALUES(NULL,'',$postId)");
         }
+    }
+
+    public function likePost($postId){
+        $query= mysqli_query($this->con,"SELECT likers FROM likes where post_id=$postId");
+        $likers = mysqli_fetch_assoc($query);
+        $likers= explode(",",$likers['likers']);
+        $toAdd;
+        $username=$_SESSION['username'];
+        if (in_array($_SESSION['username'],$likers)){
+            $index=array_search($_SESSION['username'],$likers);
+            unset($likers[$index]);
+            $likers=implode(",",$likers);
+            $query=mysqli_query($this->con,"UPDATE likes SET likers='$likers' WHERE post_id=$postId");
+            $toAdd=-1;
+        }else{
+            $likers=implode(",",$likers);
+            $likers=$likers.$_SESSION['username'].",";
+            $query=mysqli_query($this->con,"UPDATE likes SET likers='$likers' WHERE post_id=$postId");
+            $toAdd=1;
+        }
+        mysqli_query($this->con,"UPDATE posts SET likes=likes+$toAdd WHERE id=$postId");
+    mysqli_query($this->con,"UPDATE users SET num_likes=num_likes+$toAdd WHERE username='$username'");
     }
 
     public function deletePost($postId)
     {
-        //TODO: DO THAT TOO
+        $query= mysqli_query($this->con,"DELETE FROM posts WHERE id=$postId");// Delete the Proper Post
+        $query2= mysqli_query($this->con,"DELETE FROM comments where post_id=$postId");// Dellete the comments related to the post
 
     }
 
-    public function deleteComment($commentId)
+    public function deleteComment($commentId,$postId)
     {
-        //TODO: DO THAT TOO    
+        mysqli_query($this->con,"DELETE FROM comments WHERE id=$commentId ");
+        mysqli_query($this->con,"UPDATE posts SET comments=comments-1 WHERE id=$postId");
     }
 
     public function addComment()
@@ -50,6 +75,8 @@ class Post
         if (!empty($isEmpty)) {
             $added_by = $this->userObj->getUsername();
             $query = mysqli_query($this->con, "INSERT INTO comments VALUES(NULL,'$commentBody','$added_by',$postId,CURRENT_TIMESTAMP)");
+            $commentId = mysqli_insert_id($this->con);
+            $query = mysqli_query($this->con,"UPDATE posts SET comments=comments+1 WHERE id=$postId" );
         }
     }
 
@@ -63,7 +90,7 @@ class Post
 
 
         $data = mysqli_query($this->con, "SELECT * FROM posts ORDER BY date_added DESC");
-
+        
         if (mysqli_num_rows($data) > 0) {
             $count = 1;
             $iterations = 0;
@@ -76,6 +103,11 @@ class Post
                 $likes = $row['likes'];
                 $date_added = $row['date_added'];
                 $postId = $row['id'];
+                $commentsNum= $row['comments'];
+                
+                $query= mysqli_query($this->con,"SELECT likers FROM likes where post_id=$postId");
+                $likers = mysqli_fetch_assoc($query);
+                $likers= explode(",",$likers['likers']);
 
                 if ($user_to != "") {//check if the post is on the user's own wall or on others wall
                     $userToObj = new User($this->con, $user_to);
@@ -95,7 +127,6 @@ class Post
                     $addedByFName = $addedByObj->getFullName();
                     $addedByPic = $addedByObj->getProfilePic();
                     $date_added = getTimeFrame($date_added);//this function exists in functions.php which returns the time passes since the post has been added
-
                     ?>
 
 
@@ -107,25 +138,39 @@ class Post
                             <a href='<?php echo $added_by; ?>'><?php echo $addedByFName; ?></a>
                             <?php echo $user_to != "" ? "to <a href='" . $user_to . "'> " . $userToFName . "</a>" : ""; ?>
                             <span id="timeFrame" class="text-muted"><?php echo $date_added ?></span>
+                            <?php if($added_by==$_SESSION['username']){ ?>
+                            <form class="removeComment d-inline" action="" method="post">
+                                                <input type="hidden" name="post_id" value="<?php echo $postId; ?>">
+                                                <button name="remove_post" id="closePostBtn" class="btn " type="submit" aria-hidden="true"><a class="close" aria-label="Close">&times;</a></button>
+                                            </form>
+                                            <?php } ?>
                         </div>
                         <div class="postBody">
                             <p><?php echo $body; ?></p>
                         </div>
                         <div class="interactionBox">
-                            <button class="btn btn-link"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like (0)
+                        <form action="" method="post" class="d-inline form-inline">
+                            <input type="hidden" name="post_id" value="<?php echo $postId; ?>"> 
+                            <button name="like_btn" type="submit" class="btn btn-link">
+                            <?php if(in_array($_SESSION['username'],$likers)){ ?>
+                                <i class="fa fa-thumbs-down" aria-hidden="true"></i> Unlike (<?php echo $likes; ?>)   
+                            <?php }else{ ?>
+                                <i class="fa fa-thumbs-up" aria-hidden="true"></i> Like (<?php echo $likes; ?>)
+                            <?php } ?>
                             </button>
-                            <button class="btn btn-link" id="comment">Comment (0)</button>
+                            </form>
+                            <button class="btn btn-link" id="comment">Comments (<?php echo $commentsNum; ?>)</button>
                             <div id="commentWrapper" class="d-flex justify-content-start">
                                 <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic'
                                                                         src='<?php echo $_SESSION['userProfile']; ?>'></a>
                                 <form method="post" action="<?php htmlentities($_SERVER['PHP_SELF']); ?>">
                                     <input type="hidden" name="post_id" value="<?php echo $postId; ?>">
                                     <input type="text" name="insert_comment" class="commentText">
-                                    <button name="comment_btn" type="submit" class="commentBtn"><i
-                                                class="fa fa-commenting" aria-hidden="true"></i></button>
+                                    <button name="comment_btn" type="submit" class="commentBtn"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                             <?php
+                           
                             $comments_query = mysqli_query($this->con, "SELECT * FROM comments WHERE post_id = $postId ORDER BY commented_on DESC");
                             while ($comments_result = mysqli_fetch_assoc($comments_query)) {
                                 $commenter_username = $comments_result['commented_by'];
@@ -134,15 +179,18 @@ class Post
                                 $comment_time = getTimeFrame($comments_result['commented_on']);
                                 $commenter_pic = $commenter_result['profile_pic'];
                                 $commenter_fname = $commenter_result['first_name'] . " " . $commenter_result['last_name'];
+                                $comment_id= $comments_result['id'];
                                 ?>
                                 <div class="commentSnap">
                                     <div class="commentInfo d-flex">
                                         <a href="<?php echo $commenter_username; ?>"><img width="50" height="50" id="postPic" src="<?php echo $commenter_pic; ?>"></a>
                                         <a href='<?php echo $commenter_username; ?>'><?php echo $commenter_fname; ?></a>
                                         <?php if ($_SESSION['username']==$commenter_username){?>
-                                        <a class="close" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </a>
+                                            <form class="removeComment d-inline" action="" method="post">
+                                                <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
+                                                <input type="hidden" name="post_id" value="<?php echo $postId; ?>">
+                                                <button name="remove_comment" id="closeCommentBtn" class="btn " type="submit" aria-hidden="true"><a class="close" aria-label="Close">&times;</a></button>
+                                            </form>
                                         <?php } ?>
                                         <span id="commentTime" class="text-muted"><?php echo $comment_time ?></span>
                                     </div>
