@@ -3,7 +3,6 @@
     $query="SELECT * FROM users WHERE username='$username'";
     $result=mysqli_query($con,$query);
     $result=mysqli_fetch_assoc($result);
-    $result['friend_array']=explode(',',$result['friend_array']);
 ?>
 
 <html lang="en">

@@ -159,7 +159,7 @@ div.card-body {
 #timeFrame {
     position: relative;
     top: 30px;
-    right: 105px;
+    right: 10%;
     font-size: 0.7rem;
 }
 
@@ -256,4 +256,13 @@ button.close {
 #closeCommentBtn,
 #closePostBtn {
     background: transparent;
+}
+
+div.card-body {
+    padding-bottom: 15px;
+}
+
+.toText {
+    padding-left: 5px;
+    padding-right: 5px;
 }

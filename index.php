@@ -8,6 +8,7 @@ if (!$_SESSION['username']) {
     die();
 }
 $post = new Post($con, $_SESSION['username']);
+$_SESSION['userPosts']=$_SESSION['username'];
 if (isset($_POST['post_btn'])) {
     $post->submitPost($_POST['post_text'], "");
 }

@@ -80,7 +80,7 @@ class Post
         }
     }
 
-    public function loadPosts($limit, $page)
+    public function loadPosts($limit, $page, $username)
     {
         $start = 0;
         if ($page == 1)
@@ -88,6 +88,11 @@ class Post
         else
             $start = ($page - 1) * $limit;
 
+        $user_friends=mysqli_query($this->con,"SELECT friends_array FROM users WHERE username='$username'");
+        $user_friends=mysqli_fetch_assoc($user_friends)['friends_array'];
+        $user_friends=explode(',',$user_friends);
+        
+        
 
         $data = mysqli_query($this->con, "SELECT * FROM posts ORDER BY date_added DESC");
         
@@ -104,7 +109,9 @@ class Post
                 $date_added = $row['date_added'];
                 $postId = $row['id'];
                 $commentsNum= $row['comments'];
-                
+
+                if (in_array($added_by,$user_friends) || $added_by==$username || !(isset($user_friends)|| $_SESSION['$userPosts']!=$_SESSION['username'] || empty($user_friends))
+               || $username==$user_to){
                 $query= mysqli_query($this->con,"SELECT likers FROM likes where post_id=$postId");
                 $likers = mysqli_fetch_assoc($query);
                 $likers= explode(",",$likers['likers']);
@@ -135,8 +142,8 @@ class Post
 
                             <a href="<?php echo $added_by; ?>"><img width="50" height="50" id='postPic'
                                                                     src='<?php echo $addedByPic; ?>'></a>
-                            <a href='<?php echo $added_by; ?>'><?php echo $addedByFName; ?></a>
-                            <?php echo $user_to != "" ? "to <a href='" . $user_to . "'> " . $userToFName . "</a>" : ""; ?>
+                                                                    <p class="d-flex"><a href='<?php echo $added_by; ?>'><?php echo $addedByFName; ?></a>
+                            <?php echo $user_to != "" ? "<span class='text-muted align-self-center toText'>To</span> <a href='" . $user_to . "'> " . $userToFName . "</a>" : ""; ?></p>
                             <span id="timeFrame" class="text-muted"><?php echo $date_added ?></span>
                             <?php if($added_by==$_SESSION['username']){ ?>
                             <form class="removeComment d-inline" action="" method="post">
@@ -207,7 +214,7 @@ class Post
                 } else {
                     continue;
                 }
-            } ?>
+            }} ?>
             <script>
 
             </script>

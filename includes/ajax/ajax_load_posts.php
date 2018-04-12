@@ -7,7 +7,7 @@ require "$root/includes/classes/Post.php";
 
 $max = 10;
 
-$posts = new Post($con,$_REQUEST['username']);
-$posts->LoadPosts($max,$_REQUEST['page']);
+$posts = new Post($con,$_SESSION["userPosts"]);
+$posts->LoadPosts($max,$_REQUEST["page"],$_SESSION["userPosts"]);
 
 ?>
