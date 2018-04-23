@@ -2,6 +2,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'] . "/Social/public";
 include "$root/includes/functions.php";
 
+
 class Post
 {
     private $userObj;
@@ -94,7 +95,7 @@ class Post
         
         
 
-        $data = mysqli_query($this->con, "SELECT * FROM posts ORDER BY date_added DESC");
+        $data = mysqli_query($this->con, "SELECT * FROM posts WHERE (user_to='$username' OR added_by='$username') ORDER BY date_added DESC");
         
         if (mysqli_num_rows($data) > 0) {
             $count = 1;
@@ -122,7 +123,6 @@ class Post
                 }
                 if ($iterations++ < $start)
                     continue;
-
                 if ($count > $limit)
                     break;
                 else
@@ -214,12 +214,7 @@ class Post
                 } else {
                     continue;
                 }
-            }} ?>
-            <script>
-
-            </script>
-
-        <?php }
+            }} }
     }
 }
 

@@ -266,3 +266,60 @@ div.card-body {
     padding-left: 5px;
     padding-right: 5px;
 }
+
+
+/**  Profile.php **/
+
+.addButtons button {
+    margin: 5px auto;
+    width: 75%;
+}
+
+
+/** Conversation Modal **/
+
+#convHead {
+    width: 50px;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.user-conv {
+    align-items: baseline;
+    flex-direction: row-reverse;
+}
+
+.other-conv {
+    align-items: baseline
+}
+
+.convText {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.otherConvText {
+    background: #d8d8d8;
+}
+
+.userConvText {
+    background: #552e9c;
+    color: white;
+}
+
+.modal-body {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 60%;
+}
+
+.modal-body hr {
+    margin: 0;
+}
+
+.modal-body span {
+    font-size: .8rem;
+}

@@ -10,7 +10,7 @@ if (!$_SESSION['username']) {
 include "includes/profilePage/header.php";
 $profile_username=$_GET['profile_username'];
 $mainUser;
-$friend_btn;
+$friend_btn='';
 if (isset($profile_username) && mysqli_num_rows(mysqli_query($con,"SELECT * FROM users WHERE username='$profile_username'"))>0){
     $profile=new User($con,$profile_username);
     $mainUser=new User($con,$_SESSION['username']); 
@@ -86,9 +86,14 @@ if (isset($_POST['friend_btn'])){
             <?php echo $profile->getNumFriends(); ?>
             </p>
         <div class="addButtons text-center">
-        <form action="" method="post"> 
-            <?php echo $friend_btn ; ?>          
-        </form>
+            <form action="" method="post"> 
+                <?php echo $friend_btn ; ?>          
+            </form>
+            <?php 
+                if ($profile->isFriend($_SESSION['username'])){?>
+                    <button class="btn btn-info" id="discuss-btn">Discuss</button>
+                <?php }
+            ?>
         </div>
         </div>
         
@@ -104,4 +109,23 @@ if (isset($_POST['friend_btn'])){
         
     </div>
 </div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="discussion-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chatting With <?php echo $profile->getFullName(); ?></h5>
+            </div>
+            <div class="modal-body" id="conversation">
+    
+            </div>
+            <div class="modal-footer">
+                <input type="text" id="msgBody" class="form-control">
+                <button type="button" class="btn btn-danger" id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include "includes/profilePage/footer.php"; ?>

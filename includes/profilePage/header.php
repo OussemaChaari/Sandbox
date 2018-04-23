@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" id="username">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="index.php">
                             <span>
                                 <?php echo $result['first_name']; ?>
                             </span>
