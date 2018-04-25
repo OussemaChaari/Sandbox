@@ -24,4 +24,4 @@ This Project ended up being bigger than expected for just doing the "handshake" 
 ## Software used
 -VS Code.\
 -Git bash.\
--XAMPP.\
+-XAMPP.
