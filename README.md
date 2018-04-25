@@ -1,4 +1,4 @@
-# socialMediaClone
+# Social media clone
 This is my first project using php. I was trying to get acquainted with the laanguage.\ 
 This Project ended up being bigger than expected for just doing the "handshake" with php.\
 
