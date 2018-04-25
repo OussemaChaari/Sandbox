@@ -71,6 +71,10 @@ class User{
         return $this->user['first_name'] . " " . $this->user['last_name'];
     }
 
+    public function getFirstName(){
+        return $this->user['first_name'] ;
+    }
+
     public function getUsername(){
         return $this->user['username'];
     }

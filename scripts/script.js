@@ -1,7 +1,14 @@
 $(document).ready(function() {
+    //Variable passed with the posts request 
     var page = 1;
+
+    //Variable Passed with the message request
     var convPage = 1;
+
+    //load Posts for index/profile.php
     loadPosts();
+
+
     var conversationInterval;
     var lastloadedTimestamp;
 
@@ -32,6 +39,12 @@ $(document).ready(function() {
         loadMessages();
     });
 
+    $(".messages").click(function() {
+        $.post("includes/ajax/ajax_load_last_messages.php", function(data) {
+            $(".recentMessages").prepend(data);
+        });
+    });
+
     function loadMessages() {
         $.ajax({
             url: "includes/ajax/ajax_load_messages.php",
@@ -59,6 +72,7 @@ $(document).ready(function() {
         });
     });
 
+    //submit message
     $("#send-btn").click(function() {
         var msgBody = $("#msgBody").val();
         $.ajax({
@@ -75,7 +89,7 @@ $(document).ready(function() {
     });
 
 
-
+    //Update/load the conversation window
     $("#discussion-modal").on("shown.bs.modal", function() {
         conversationInterval = setInterval(function() {
             $.ajax({
@@ -86,7 +100,6 @@ $(document).ready(function() {
                 success: function(data) {
                     $("#conversation").append(data);
                     lastloadedTimestamp = $(".conversation-div:last input[type=hidden]").val();
-                    console.log("Last time stamp: " + lastloadedTimestamp);
                 }
             });
         }, 1000);

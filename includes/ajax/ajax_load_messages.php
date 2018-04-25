@@ -7,9 +7,16 @@ require "$root/includes/classes/User.php";
 
 $max = 5;
 $user=$_SESSION['username'];
-$otherUser=$_SESSION['userPosts'];
+
+$user=$_SESSION['username'];
+if (isset($_POST['msger']) && !empty($_POST['msger'])) 
+    $otherUser=$_POST['msger'];
+else
+    $otherUser=$_SESSION['userPosts'];
 
 $messages = new Message($con,$user,$otherUser);
 $messages->loadMessages($max-1,$_POST["convPage"],$user,$otherUser);
+
+$_POST['msger']="";
 
 ?>

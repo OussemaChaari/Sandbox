@@ -323,3 +323,8 @@ div.card-body {
 .modal-body span {
     font-size: .8rem;
 }
+
+#messengerWidgetlink:hover,
+#messengerWidgetlink:active {
+    text-decoration: none !important;
+}

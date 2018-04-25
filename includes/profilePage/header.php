@@ -54,9 +54,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                    <div class="dropdown messengerWidget">
+                        <button class="nav-link btn btn-link messages dropdown-toggle"  data-toggle="dropdown" >
                             <i class="fa fa-envelope"></i>
-                        </a>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right  recentMessages ">
+                            <div class="text-center">
+                            </div>
+                        </div>
+                    </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="includes/nav_handlers/logout.php">

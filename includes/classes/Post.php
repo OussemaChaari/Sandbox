@@ -92,8 +92,6 @@ class Post
         $user_friends=mysqli_query($this->con,"SELECT friends_array FROM users WHERE username='$username'");
         $user_friends=mysqli_fetch_assoc($user_friends)['friends_array'];
         $user_friends=explode(',',$user_friends);
-        
-        
 
         $data = mysqli_query($this->con, "SELECT * FROM posts WHERE (user_to='$username' OR added_by='$username') ORDER BY date_added DESC");
         

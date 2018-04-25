@@ -5,7 +5,12 @@ require "$root/includes/connection.php";
 require "$root/includes/classes/Message.php";
 require "$root/includes/classes/User.php";
 
-$message = new Message($con,$_SESSION["username"],$_SESSION['userPosts']);
-$message->submitMessage($_POST['msgBody']);
+$max = 10;
+
+$user=$_SESSION['username'];
+$otherUser=$_SESSION['userPosts'];
+
+$messages = new Message($con,$user,$otherUser);
+$messages->loadRecentMessages($max, $user);
 
 ?>
